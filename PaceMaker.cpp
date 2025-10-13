@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <cstdio>
+#include <cmath>
 
 #if defined(_WIN32)
 #pragma comment(linker, "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
@@ -23,6 +24,32 @@ struct Player
     int teamColorIndex;         // 0=Red Bull, 1=Ferrari, 2=Mercedes, etc.
     int batteryPercent;         // Battery percentage
     bool inPit;                 // Is in pit
+};
+
+// Relative timing player structure
+struct RelativePlayer
+{
+    int position;
+    int number;
+    std::string name;
+    std::string teamCode;       // e.g., "HY", "BR3"
+    float gap;                  // Gap in seconds (positive = ahead, negative = behind)
+    int teamColorIndex;
+};
+
+// Draggable box structure
+struct DraggableBox
+{
+    int x, y;
+    int width, height;
+    bool isDragging;
+    int dragOffsetX, dragOffsetY;
+
+    bool IsMouseOver(int mouseX, int mouseY) const
+    {
+        return mouseX >= x && mouseX <= x + width &&
+            mouseY >= y && mouseY <= y + height;
+    }
 };
 
 // Team colors
@@ -136,15 +163,111 @@ void DrawLeaderboard(const std::vector<Player>& players, int x, int y)
     }
 }
 
+void DrawRelativeTimingRow(const RelativePlayer& player, int x, int y, int rowHeight, bool isPlayer)
+{
+    // Row background - highlight player's row
+    Color bgColor = isPlayer ? Color{ 60, 60, 80, 200 } : Color{ 40, 40, 40, 180 };
+    DrawRectangle(x, y, 420, rowHeight, bgColor);
+
+    int currentX = x + 10;
+    int textY = y + (rowHeight / 2) - 10;
+
+    // Position number with background
+    Color posColor = player.position <= 3 ? Color{ 220, 0, 0, 255 } :
+        player.position <= 10 ? Color{ 0, 180, 0, 255 } :
+        Color{ 100, 100, 100, 255 };
+    DrawRectangle(currentX, y + 8, 26, rowHeight - 16, posColor);
+    char posStr[8];
+    snprintf(posStr, sizeof(posStr), "%d", player.position);
+    DrawText(posStr, currentX + (player.position < 10 ? 8 : 4), y + 11, 18, WHITE);
+    currentX += 35;
+
+    // Team code box
+    DrawRectangle(currentX, y + 8, 36, rowHeight - 16, teamColors[player.teamColorIndex]);
+    DrawText(player.teamCode.c_str(), currentX + 4, y + 11, 14, WHITE);
+    currentX += 45;
+
+    // Driver name
+    DrawCustomTextWithShadow(player.name.c_str(), currentX, textY, 18, WHITE, 1);
+    currentX = x + 290;
+
+    // Gap to player
+    char gapStr[16];
+    if (std::abs(player.gap) < 0.01f)
+    {
+        snprintf(gapStr, sizeof(gapStr), "0.0");
+    }
+    else
+    {
+        snprintf(gapStr, sizeof(gapStr), "%+.1f", player.gap);
+    }
+
+    Color gapColor = player.gap > 0 ? Color{ 100, 200, 100, 255 } : Color{ 200, 100, 100, 255 };
+    if (std::abs(player.gap) < 0.01f) gapColor = WHITE;
+
+    DrawCustomTextWithShadow(gapStr, currentX, textY, 20, gapColor, 1);
+}
+
+void DrawRelativeTimingBox(const std::vector<RelativePlayer>& players, int playerPosition, int x, int y)
+{
+    int rowHeight = 38;
+    int headerHeight = 35;
+    int boxWidth = 420;
+
+    // Header background
+    DrawRectangle(x, y, boxWidth, headerHeight, Color{ 20, 20, 20, 220 });
+    DrawCustomTextWithShadow("Relative", x + 10, y + 8, 18, WHITE, 2);
+
+    // Icons placeholder (top right)
+    int iconX = x + boxWidth - 150;
+    for (int i = 0; i < 7; i++)
+    {
+        DrawCircle(iconX + (i * 22), y + 17, 8, Color{ 80, 80, 80, 200 });
+    }
+
+    // Draw player rows
+    int startY = y + headerHeight;
+
+    for (size_t i = 0; i < players.size(); i++)
+    {
+        bool isPlayer = (players[i].position == playerPosition);
+        DrawRelativeTimingRow(players[i], x, startY + (i * rowHeight), rowHeight, isPlayer);
+    }
+}
+
+void UpdateDraggableBox(DraggableBox& box, int mouseX, int mouseY, bool mousePressed, bool mouseReleased)
+{
+    if (mousePressed && box.IsMouseOver(mouseX, mouseY) && !box.isDragging)
+    {
+        box.isDragging = true;
+        box.dragOffsetX = mouseX - box.x;
+        box.dragOffsetY = mouseY - box.y;
+    }
+
+    if (mouseReleased)
+    {
+        box.isDragging = false;
+    }
+
+    if (box.isDragging)
+    {
+        box.x = mouseX - box.dragOffsetX;
+        box.y = mouseY - box.dragOffsetY;
+    }
+}
+
 int main()
 {
+
+    SetConfigFlags(FLAG_WINDOW_TRANSPARENT | FLAG_MSAA_4X_HINT);
+    InitWindow(800, 600, "PaceMaker - Racing Overlay");
+
     // Get monitor dimensions
     int monitorWidth = GetMonitorWidth(0);
     int monitorHeight = GetMonitorHeight(0);
 
-    SetConfigFlags(FLAG_WINDOW_TRANSPARENT | FLAG_MSAA_4X_HINT);
-    InitWindow(monitorWidth, monitorHeight, "PaceMaker - Racing Overlay");
-
+    SetWindowSize(monitorWidth, monitorHeight);
+    SetWindowPosition(0, 0);
     // Load font
     gFont = LoadFontEx("F:/repos/PaceMaker/Formula1-Bold.otf", 64, 0, 95);
     SetTextureFilter(gFont.texture, TEXTURE_FILTER_BILINEAR);
@@ -161,12 +284,44 @@ int main()
         {8, 5, "M Campbell", "-", "-", "PIT", 0, 0, true}
     };
 
+    // Relative timing data
+    std::vector<RelativePlayer> relativePlayers = {
+        {7, 7, "S Vandoorne", "HY", -18.8f, 0},
+        {13, 13, "F Heriau", "BR3", -7.0f, 2},
+        {1, 1, "O Rasmussen", "HY", -1.7f, 0},  // Player position
+        {12, 12, "J Munro", "HY", 0.0f, 9},
+        {7, 7, "C Schiavoni", "BR3", 4.6f, 2},
+        {14, 14, "J Caygill", "BR3", 14.2f, 2},
+        {8, 8, "A A Harthy", "BR3", 14.8f, 2}
+    };
+
+    // Draggable boxes
+    DraggableBox leaderboardBox = { 20, 20, 500, 325, false, 0, 0 };
+    DraggableBox relativeBox = { 20, monitorHeight - 310, 420, 300, false, 0, 0 };
+
     // Animation time for demo
     float time = 0.0f;
+    int playerPosition = 1; // Current player position
 
     while (!WindowShouldClose())
     {
         time += GetFrameTime();
+
+        // Get mouse input
+        Vector2 mousePos = GetMousePosition();
+        bool mousePressed = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+        bool mouseDown = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
+        bool mouseReleased = IsMouseButtonReleased(MOUSE_LEFT_BUTTON);
+
+        // Update draggable boxes
+        UpdateDraggableBox(relativeBox, (int)mousePos.x, (int)mousePos.y, mousePressed, mouseReleased);
+        UpdateDraggableBox(leaderboardBox, (int)mousePos.x, (int)mousePos.y, mousePressed, mouseReleased);
+
+        // Update box dimensions
+        leaderboardBox.width = 500;
+        leaderboardBox.height = 325;
+        relativeBox.width = 420;
+        relativeBox.height = 300;
 
         // Simulate battery changes
         for (auto& player : players)
@@ -182,8 +337,24 @@ int main()
         BeginDrawing();
         ClearBackground(BLANK);
 
-        // Draw leaderboard in top-left corner
-        DrawLeaderboard(players, 20, 20);
+        // Draw leaderboard
+        DrawLeaderboard(players, leaderboardBox.x, leaderboardBox.y);
+
+        // Draw relative timing box
+        DrawRelativeTimingBox(relativePlayers, playerPosition, relativeBox.x, relativeBox.y);
+
+        // Draw drag indicators when hovering
+        if (leaderboardBox.IsMouseOver((int)mousePos.x, (int)mousePos.y) || leaderboardBox.isDragging)
+        {
+            DrawRectangleLines(leaderboardBox.x, leaderboardBox.y, leaderboardBox.width, leaderboardBox.height,
+                leaderboardBox.isDragging ? YELLOW : Color{ 255, 255, 255, 100 });
+        }
+
+        if (relativeBox.IsMouseOver((int)mousePos.x, (int)mousePos.y) || relativeBox.isDragging)
+        {
+            DrawRectangleLines(relativeBox.x, relativeBox.y, relativeBox.width, relativeBox.height,
+                relativeBox.isDragging ? YELLOW : Color{ 255, 255, 255, 100 });
+        }
 
         EndDrawing();
     }
