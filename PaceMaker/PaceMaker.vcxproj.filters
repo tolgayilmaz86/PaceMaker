@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{ac47453a-ba9a-47e0-99f4-77ba4754df17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{cf811a2e-c502-4d44-b2d2-d585fd0d9418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{0437e1bb-88dd-45ce-bfeb-c30ca25cef23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Widgets">
+      <UniqueIdentifier>{e954520b-9afc-49bd-b4c2-7a23d20614f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Widgets">
+      <UniqueIdentifier>{32cfa672-188d-46c1-8ea7-57480b644445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Overlays">
+      <UniqueIdentifier>{dd0ddd60-33f8-4e90-a23c-57b820a22432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Overlays">
+      <UniqueIdentifier>{2db8e4b6-30fb-425f-a195-557a7dd87f03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{ae168f83-8273-4994-8126-ff54a43b74ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{2c221e32-588a-4dbf-911d-0d87f979b6dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Testing">
+      <UniqueIdentifier>{c6563fcf-0240-4f73-9fde-60c26f778a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Testing">
+      <UniqueIdentifier>{2220cf5e-2fa9-46d4-8209-665aaff89857}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PaceMaker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Widgets\BaseWidget.cpp">
+      <Filter>Source Files\Core\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Widgets\WidgetManager.cpp">
+      <Filter>Source Files\Core\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlays\LeaderboardOverlay.cpp">
+      <Filter>Source Files\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlays\TireInfoOverlay.cpp">
+      <Filter>Source Files\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlays\SpeedometerOverlay.cpp">
+      <Filter>Source Files\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlays\RelativeTimingOverlay.cpp">
+      <Filter>Source Files\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlays\InputTelemetryOverlay.cpp">
+      <Filter>Source Files\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\FontManager.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Testing\TestDataGenerator.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Widgets\SimpleWidget.cpp">
+      <Filter>Source Files\Core\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Widgets\StatusIndicatorWidget.cpp">
+      <Filter>Source Files\Overlays</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Core\IRenderable.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\IDraggable.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\IConfigurable.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\IDataConsumer.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Widgets\BaseWidget.h">
+      <Filter>Header Files\Core\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Widgets\WidgetManager.h">
+      <Filter>Header Files\Core\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Widgets\IWidget.h">
+      <Filter>Header Files\Core\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\DataBroker.hpp">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlays\LeaderboardOverlay.h">
+      <Filter>Header Files\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\DataStructs.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlays\InputTelemetryOverlay.h">
+      <Filter>Header Files\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlays\RelativeTimingOverlay.h">
+      <Filter>Header Files\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlays\SpeedometerOverlay.h">
+      <Filter>Header Files\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlays\TireInfoOverlay.h">
+      <Filter>Header Files\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\FontManager.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Testing\TestDataGenerator.h">
+      <Filter>Header Files\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Widgets\StatusIndicatorWidget.h">
+      <Filter>Header Files\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Widgets\SimpleWidget.h">
+      <Filter>Header Files\Core\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\Geometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\assets\Formula1-Bold.otf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="..\assets\Formula1-Regular.otf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="..\assets\Formula1-Wide.otf">
+      <Filter>Resource Files</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\assets\logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+  </ItemGroup>
+</Project>
