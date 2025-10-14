@@ -15,7 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PaceMaker.cpp">
+    <ClInclude Include="Standings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Standings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
