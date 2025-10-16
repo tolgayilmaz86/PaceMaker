@@ -1,6 +1,4 @@
-#include <raylib.h>
 
-// Include new overlay classes
 #include <Overlays/LeaderboardOverlay.h>
 #include <Overlays/RelativeTimingOverlay.h>
 #include <Overlays/TireInfoOverlay.h>
@@ -11,6 +9,8 @@
 #include <Data/DataStructs.h>
 #include <Utils/FontManager.h>
 #include <Testing/TestDataGenerator.h>
+
+#include <raylib.h>
 
 #include <vector>
 #include <string>
@@ -51,8 +51,18 @@ typedef __int64 LONG_PTR, * PLONG_PTR;
 #define WINAPI      __stdcall
 #define WINUSERAPI DECLSPEC_IMPORT
 
+/**********************************************************************************
+ * SetWindowClickThrough
+ * 
+ * Enables or disables click-through for the current active window.
+ * When enabled, mouse events pass through the window to underlying windows.
+ * When disabled, the window receives mouse events normally.
+ * 
+ * Parameters:
+ *   clickThrough - true to enable click-through, false to disable
+ **********************************************************************************/
 extern "C"
-{
+{ // Avoid including full Windows headers, just declare needed functions
   int __stdcall GetWindowLongPtrW(HWND hWnd, int nIndex);
   int __stdcall SetWindowLongPtrW(HWND hWnd, int nIndex, LONG_PTR dwNewLong);
   HWND __stdcall GetActiveWindow(VOID);
@@ -75,7 +85,13 @@ static void SetWindowClickThrough(bool clickThrough)
     SetWindowLongPtrW(hwnd, GWL_EXSTYLE, exStyle);
   }
 }
-
+/**
+ * @brief Initializes the application windowing and rendering resources for the overlay. 
+ *        Sets configuration flags, creates and positions the window (maximized and topmost), 
+ *        loads and sets the window icon, loads and configures fonts, 
+ *        registers those fonts with the font manager, and adjusts the window to the primary monitor.
+ * @return A std::pair<int,int> containing the monitor dimensions in pixels: [monitor width, monitor height].
+ */
 static std::pair<int, int> InitializeSystem()
 {
   SetConfigFlags(
@@ -113,9 +129,10 @@ static std::pair<int, int> InitializeSystem()
   return std::pair<int, int>(monitorWidth, monitorHeight);
 }
 
+//------------------------------------------------------------------------------
 int main()
 {
-  auto [monitorWidth, monitorHeight] = InitializeSystem();
+  const auto& [monitorWidth, monitorHeight] = InitializeSystem();
 
   using namespace pacemaker;
   DataBroker<LeaderboardData> leaderboardBroker;
@@ -199,6 +216,12 @@ int main()
       widgetMoveMode = !widgetMoveMode;
       SetWindowClickThrough(!widgetMoveMode);
       statusIndicator->SetVisible(widgetMoveMode);
+    }
+
+    // Exit application when ESC is pressed
+    if (IsKeyPressed(KEY_ESCAPE))
+    {
+      break;
     }
 
     // Get mouse input
