@@ -145,7 +145,7 @@ int main()
   );
 
   auto tireInfoOverlay = std::make_unique<TireInfoOverlay>(
-    Bounds{ monitorWidth - 470, monitorHeight - 280, 180, 140 },
+    Bounds{ monitorWidth - 400, monitorHeight - 320, 150, 200 },
     MinSize{ 150, 120 },
     &gFont,
     tireInfoBroker
@@ -167,7 +167,7 @@ int main()
 
   // Create status indicator widget
   auto statusIndicator = std::make_unique<StatusIndicatorWidget>(
-    Bounds{ monitorWidth / 2 - 315, monitorHeight / 3, 550, 40 },
+    Bounds{ monitorWidth / 2 - 315, monitorHeight / 3, 620, 40 },
     &gFont
   );
   statusIndicator->SetVisible(false);

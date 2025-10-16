@@ -29,13 +29,10 @@ void TireInfoOverlay::Render() const
     const auto& [x, y, width, height] = m_bounds;
 
     // Background
-    DrawRectangle(x, y, width, height, Color{30, 30, 40, 220});
-
-    // Title
-    DrawTextEx(*m_font, "TIRES", {(float)(x + 10), (float)(y + 10)}, 16, 1, WHITE);
+    DrawRectangle(x, y + 56, width, height, Color{30, 30, 40, 220});
 
     // Scale tire layout based on available space
-    float scale = std::min(width / 180.0f, height / 140.0f);
+    float scale = std::min(width / 90.0f, height / 70.0f);
 
     int tireWidth = (int)(30 * scale);
     int tireHeight = (int)(50 * scale);
