@@ -141,6 +141,9 @@
       <Filter>Header Files\Core\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\Geometry.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -159,8 +162,16 @@
     <Image Include="..\assets\logo.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\assets\app.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

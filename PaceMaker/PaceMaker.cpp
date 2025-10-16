@@ -87,6 +87,11 @@ static std::pair<int, int> InitializeSystem()
 
   InitWindow(800, 600, "PaceMaker - Racing Overlay");
 
+  // Load and set window icon
+  Image icon = LoadImage("logo.png");
+  SetWindowIcon(icon);
+  UnloadImage(icon);
+
   // Get monitor dimensions
   int monitorWidth = GetMonitorWidth(0);
   int monitorHeight = GetMonitorHeight(0);
@@ -95,10 +100,10 @@ static std::pair<int, int> InitializeSystem()
   SetWindowPosition(0, 0);
 
   // Load font
-  gFont = LoadFontEx("F:/repos/PaceMaker/assets/Formula1-Bold.otf", 64, 0, 95);
+  gFont = LoadFontEx("Formula1-Bold.otf", 64, 0, 95);
   SetTextureFilter(gFont.texture, TEXTURE_FILTER_BILINEAR);
 
-  gRegularFont = LoadFontEx("F:/repos/PaceMaker/assets/Formula1-Regular.otf", 64, 0, 95);
+  gRegularFont = LoadFontEx("Formula1-Regular.otf", 64, 0, 95);
   SetTextureFilter(gRegularFont.texture, TEXTURE_FILTER_BILINEAR);
 
   // Create data brokers for each overlay type

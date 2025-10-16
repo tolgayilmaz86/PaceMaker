@@ -114,6 +114,11 @@
       <AdditionalDependencies>raylib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /Y /D "$(SolutionDir)assets\*.otf" "$(OutDir)"
+
+xcopy /Y /D "$(SolutionDir)assets\*.png" "$(OutDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -163,6 +168,7 @@
     <ClInclude Include="include\Utils\FontManager.h" />
     <ClInclude Include="include\Utils\Geometry.h" />
     <ClInclude Include="include\Widgets\StatusIndicatorWidget.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\assets\Formula1-Bold.otf" />
@@ -170,10 +176,14 @@
     <Font Include="..\assets\Formula1-Wide.otf" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\assets\app.ico" />
     <Image Include="..\assets\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
