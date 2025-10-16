@@ -321,4 +321,14 @@ sequenceDiagram
 ---
 
 ## Screenshots
-![Leaderboard Overlay](screenshots/leaderboard_overlay.png)
+### Inputs Telemetry Overlay
+![Inputs Overlay](screenshots/inputs.png)
+
+### Leaderboard Overlay
+![Leaderboard Overlay](screenshots/leaderboard.png)
+
+### Relative Timing Overlay
+![Relative Timing Overlay](screenshots/relative.png)
+
+### All Overlays Combined
+![All Overlays](screenshots/all.png)
